@@ -11,9 +11,11 @@ import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePractic
 fun SecondScreen() {
     Scaffold(
         topBar = {
-            TopAppBar {
-                Text(text = "SecondScreen")
-            }
+            TopAppBar(
+                title = {
+                    Text(text = "SecondScreen")
+                }
+            )
         }
     ) {
         Text(text = "次の画面")
