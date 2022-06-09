@@ -3,33 +3,41 @@ package com.rnk0085.android.jetpackcomposepractice
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePracticeTheme
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            FirstScreen(onNextButtonClick = {})
+            MainApp()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun MainApp() {
+    val navController = rememberNavController()
+    MainNavHost(navController = navController)
 }
 
-@Preview(showBackground = true)
 @Composable
-fun DefaultPreview() {
-    JetpackComposePracticeTheme {
-        Greeting("Android")
+fun MainNavHost(
+    navController: NavHostController
+) {
+    NavHost(
+        navController = navController,
+        startDestination = "first"
+    ) {
+        composable("first") {
+            FirstScreen(onNextButtonClick = { navController.navigate("second") })
+        }
+        composable("second") {
+            SecondScreen()
+        }
     }
 }
+
