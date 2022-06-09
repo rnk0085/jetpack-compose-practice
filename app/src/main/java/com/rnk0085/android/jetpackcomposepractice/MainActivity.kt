@@ -1,13 +1,16 @@
 package com.rnk0085.android.jetpackcomposepractice
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +36,22 @@ fun MainNavHost(
         startDestination = "first"
     ) {
         composable("first") {
-            FirstScreen(onNextButtonClick = { navController.navigate("second") })
+            FirstScreen(
+                onNextButtonClick = { name ->
+                    Log.d("test", name)
+                    navController.navigate("second/$name")
+                }
+            )
         }
-        composable("second") {
-            SecondScreen("Not Yet")
+        composable(
+            route = "second/{name}",
+            arguments = listOf(
+                navArgument("name") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            SecondScreen(name = backStackEntry.arguments?.getString("name").toString())
         }
     }
 }

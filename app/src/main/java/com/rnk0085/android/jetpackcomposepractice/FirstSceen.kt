@@ -3,6 +3,7 @@ package com.rnk0085.android.jetpackcomposepractice
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -19,7 +20,7 @@ import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePractic
 
 @Composable
 fun FirstScreen(
-    onNextButtonClick: () -> Unit
+    onNextButtonClick: (String) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -35,15 +36,30 @@ fun FirstScreen(
         ) {
             Text(text = "最初の画面", modifier = Modifier.padding(bottom = 8.dp))
 
-            var text by remember { mutableStateOf("") }
+            var nameText by remember { mutableStateOf("") }
+
+            val isEmpty = nameText == ""
 
             OutlinedTextField(
-                value = text,
-                onValueChange = { text = it },
-                label = { Text(text = "name") }
+                value = nameText,
+                onValueChange = { nameText = it },
+                label = { Text(text = "name") },
+                isError = isEmpty
             )
 
-            Button(onClick = onNextButtonClick, modifier = Modifier.padding(top = 8.dp)) {
+            if (isEmpty) {
+                Text(
+                    text = "名前を入力してください",
+                    color = MaterialTheme.colors.error,
+                    style = MaterialTheme.typography.caption
+                )
+            }
+
+            Button(
+                enabled = !isEmpty,
+                onClick = { onNextButtonClick(nameText) },
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
                 Text(text = "Next")
             }
         }
