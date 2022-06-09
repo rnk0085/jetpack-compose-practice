@@ -36,7 +36,7 @@ fun MainNavHost(
             FirstScreen(onNextButtonClick = { navController.navigate("second") })
         }
         composable("second") {
-            SecondScreen()
+            SecondScreen("Not Yet")
         }
     }
 }
