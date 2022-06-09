@@ -1,22 +1,38 @@
 package com.rnk0085.android.jetpackcomposepractice
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePracticeTheme
 
 @Composable
-fun FirstScreen() {
+fun FirstScreen(
+    onNextButtonClick: () -> Unit
+) {
     Scaffold(
         topBar = {
-            TopAppBar {
-                Text(text = "FirstScreen")
-            }
+            TopAppBar(
+                title = {
+                    Text(text = "FirstScreen")
+                }
+            )
         }
     ) {
-        Text(text = "最初の画面")
+        Column(
+            modifier = Modifier.padding(24.dp)
+        ) {
+            Text(text = "最初の画面")
+            Button(onClick = onNextButtonClick) {
+                Text(text = "Next")
+            }
+        }
     }
 }
 
@@ -27,6 +43,6 @@ fun FirstScreen() {
 @Composable
 fun FirstScreenPreview() {
     JetpackComposePracticeTheme {
-        FirstScreen()
+        FirstScreen(onNextButtonClick = {})
     }
 }
