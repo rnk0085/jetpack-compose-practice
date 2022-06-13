@@ -1,6 +1,7 @@
 package com.rnk0085.android.jetpackcomposepractice
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -66,7 +67,39 @@ fun MyNavHost(
 
         composable(Routes.Fourth.route) {
             Fourth(
-                onButtonClick = {}
+                onButton1Click = {
+                    // Second -> Fourth -> Third -> Second -> First
+                    navController.navigate(Routes.Second.route)
+                },
+                onButton2Click = {
+                    // Second -> Third -> Second -> First
+                    navController.navigate(Routes.Second.route) {
+                        popUpTo(Routes.Third.route)
+                    }
+                },
+                onButton3Click = {
+                    // Second -> Second -> First
+                    navController.navigate(Routes.Second.route) {
+                        popUpTo(Routes.Third.route) {
+                             inclusive = true
+                        }
+                    }
+                },
+                onButton4Click = {
+                    // Second -> First
+                    navController.navigate(Routes.Second.route) {
+                        popUpTo(Routes.Second.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onButton5Click = {
+                    // Second -> First
+                    navController.popBackStack(
+                        route = Routes.Second.route,
+                        inclusive = false
+                    )
+                }
             )
         }
     }
@@ -125,7 +158,11 @@ fun Third(
 
 @Composable
 fun Fourth(
-    onButtonClick: () -> Unit
+    onButton1Click: () -> Unit,
+    onButton2Click: () -> Unit,
+    onButton3Click: () -> Unit,
+    onButton4Click: () -> Unit,
+    onButton5Click: () -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -133,8 +170,20 @@ fun Fourth(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Fourth")
-        Button(onClick = onButtonClick) {
-            Text(text = "Back")
+        Button(onClick = onButton1Click) {
+            Text(text = "Back1")
+        }
+        Button(onClick = onButton2Click) {
+            Text(text = "Back2")
+        }
+        Button(onClick = onButton3Click) {
+            Text(text = "Back3")
+        }
+        Button(onClick = onButton4Click) {
+            Text(text = "Back4")
+        }
+        Button(onClick = onButton5Click) {
+            Text(text = "Back5")
         }
     }
 }
