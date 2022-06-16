@@ -3,39 +3,84 @@ package com.rnk0085.android.jetpackcomposepractice
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.rnk0085.android.jetpackcomposepractice.animateAsState.AnimateAsStateScreen
+import com.rnk0085.android.jetpackcomposepractice.animateContentSize.AnimateContentSizeScreen
+import com.rnk0085.android.jetpackcomposepractice.animatedVisibility.AnimatedVisibilityScreen
+import com.rnk0085.android.jetpackcomposepractice.crossFade.CrossFadeScreen
 import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePracticeTheme
+import com.rnk0085.android.jetpackcomposepractice.updateTransition.UpdateTransitionScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposePracticeTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
+                val navController = rememberNavController()
+                MainNavHost(navController = navController)
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun MainNavHost(
+    navController: NavHostController
+) {
+    NavHost(
+        navController = navController,
+        startDestination = Routes.Home.route
+    ) {
+        composable(Routes.Home.route) {
+            HomeScreen(
+                onClick1 = {
+                    navController.navigate(Routes.AnimateAsState.route)
+                },
+                onClick2 = {
+                    navController.navigate(Routes.UpdateTransition.route)
+                },
+                onClick3 = {
+                    navController.navigate(Routes.AnimatedVisibility.route)
+                },
+                onClick4 = {
+                    navController.navigate(Routes.AnimateContentSize.route)
+                },
+                onClick5 = {
+                    navController.navigate(Routes.CrossFade.route)
+                }
+            )
+        }
+        composable(Routes.AnimateAsState.route) {
+            AnimateAsStateScreen()
+        }
+
+        composable(Routes.UpdateTransition.route) {
+            UpdateTransitionScreen()
+        }
+
+        composable(Routes.AnimatedVisibility.route) {
+            AnimatedVisibilityScreen()
+        }
+
+        composable(Routes.AnimateContentSize.route) {
+            AnimateContentSizeScreen()
+        }
+
+        composable(Routes.CrossFade.route) {
+            CrossFadeScreen()
+        }
+    }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    JetpackComposePracticeTheme {
-        Greeting("Android")
-    }
+sealed class Routes(val route: String) {
+    object Home : Routes("home")
+    object AnimateAsState : Routes("animateAsState")
+    object UpdateTransition : Routes("updateTransition")
+    object AnimatedVisibility : Routes("animatedVisibility")
+    object AnimateContentSize : Routes("animateConteSize")
+    object CrossFade : Routes("crossFade")
 }
