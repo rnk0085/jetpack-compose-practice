@@ -1,12 +1,16 @@
 package com.rnk0085.android.jetpackcomposepractice.animateAsState
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Scaffold
@@ -21,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.rnk0085.android.jetpackcomposepractice.MyBox
 import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePracticeTheme
 
 @Composable
@@ -36,61 +41,110 @@ fun AnimateAsStateScreen() {
     ) {
         var isBlue by remember { mutableStateOf(true) }
 
-        Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(16.dp)
+        Button(
+            onClick = { isBlue = !isBlue },
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp)
         ) {
-            Button(onClick = { isBlue = !isBlue }) {
-                Text(text = "CHANGE COLOR")
-            }
+            Text(text = "CHANGE COLOR")
+        }
+
+        Column(modifier = Modifier
+            .padding(top = 48.dp)
+            .fillMaxSize()
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
+        ) {
+
             Text(text = "アニメーション無し")
             NoAnimation(isBlue = isBlue)
 
-            Divider()
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
 
             Text(text = "アニメーション有り")
+
             AnimationAvailable(isBlue = isBlue)
+            AnimationAvailableWithFastOutSlowInEasing(isBlue = isBlue)
+            AnimationAvailableWithLinearOutSlowInEasing(isBlue = isBlue)
+            AnimationAvailableWithFastOutLinearInEasing(isBlue = isBlue)
+            AnimationAvailableWithLinearEasing(isBlue = isBlue)
         }
     }
 }
 
 @Composable
-private fun AnimationAvailable(
-    isBlue: Boolean
-) {
+private fun AnimationAvailable(isBlue: Boolean) {
     val backgroundColor by animateColorAsState(if (isBlue) Color.Blue else Color.Red)
 
-    Box(
-        modifier = Modifier
-            .size(128.dp)
-            .background(backgroundColor)
-    )
-}
-
-@Composable
-private fun NoAnimation(
-    isBlue: Boolean
-) {
-    val backgroundColor = if (isBlue) Color.Blue else Color.Red
-
-    Box(
-        modifier = Modifier
-            .size(128.dp)
-            .background(backgroundColor)
-    )
-}
-
-@Composable
-private fun BoxWithButton(
-    onClick: () -> Unit,
-    content: @Composable () -> Unit
-) {
     Column {
-        Button(onClick = onClick) {
-            Text(text = "CHANGE COLOR")
-        }
-        content()
+        Text(text = "Default")
+        MyBox(backgroundColor = backgroundColor)
     }
+}
+
+@Composable
+private fun AnimationAvailableWithFastOutSlowInEasing(isBlue: Boolean) {
+    val backgroundColor by animateColorAsState(
+        if (isBlue) Color.Blue else Color.Red,
+        animationSpec = tween(
+            durationMillis = 1000,
+            easing = FastOutSlowInEasing
+        )
+    )
+    Column {
+        Text(text = "tween(1000, FastOutSlowInEasing)")
+        MyBox(backgroundColor = backgroundColor)
+    }
+}
+
+@Composable
+private fun AnimationAvailableWithLinearOutSlowInEasing(isBlue: Boolean) {
+    val backgroundColor by animateColorAsState(
+        if (isBlue) Color.Blue else Color.Red,
+        animationSpec = tween(
+            durationMillis = 1000,
+            easing = LinearOutSlowInEasing
+        )
+    )
+    Column {
+        Text(text = "tween(1000, LinearOutSlowInEasing)")
+        MyBox(backgroundColor = backgroundColor)
+    }
+}
+
+@Composable
+private fun AnimationAvailableWithFastOutLinearInEasing(isBlue: Boolean) {
+    val backgroundColor by animateColorAsState(
+        if (isBlue) Color.Blue else Color.Red,
+        animationSpec = tween(
+            durationMillis = 1000,
+            easing = FastOutLinearInEasing
+        )
+    )
+    Column {
+        Text(text = "tween(1000, FastOutLinearInEasing)")
+        MyBox(backgroundColor = backgroundColor)
+    }
+}
+
+@Composable
+private fun AnimationAvailableWithLinearEasing(isBlue: Boolean) {
+    val backgroundColor by animateColorAsState(
+        if (isBlue) Color.Blue else Color.Red,
+        animationSpec = tween(
+            durationMillis = 1000,
+            easing = LinearEasing
+        )
+    )
+    Column {
+        Text(text = "tween(1000, LinearEasing)")
+        MyBox(backgroundColor = backgroundColor)
+    }
+}
+
+@Composable
+private fun NoAnimation(isBlue: Boolean) {
+    val backgroundColor = if (isBlue) Color.Blue else Color.Red
+    MyBox(backgroundColor = backgroundColor)
 }
 
 @Preview(showBackground = true, name = "AnimateAsStateScreenPreview")
@@ -100,26 +154,3 @@ private fun AnimateAsStateScreenPreview() {
         AnimateAsStateScreen()
     }
 }
-
-@Preview(showBackground = true, name = "NoAnimationPreview")
-@Composable
-private fun NoAnimationPreview() {
-    JetpackComposePracticeTheme {
-        var isBlue by remember { mutableStateOf(true) }
-        BoxWithButton(onClick = { isBlue = !isBlue }) {
-            NoAnimation(isBlue = isBlue)
-        }
-    }
-}
-
-@Preview(showBackground = true, name = "AnimationAvailablePreview")
-@Composable
-private fun AnimationAvailablePreview() {
-    JetpackComposePracticeTheme {
-        var isBlue by remember { mutableStateOf(true) }
-        BoxWithButton(onClick = { isBlue = !isBlue }) {
-            AnimationAvailable(isBlue = isBlue)
-        }
-    }
-}
-
