@@ -18,6 +18,7 @@ import com.rnk0085.android.jetpackcomposepractice.animateAsState.AnimateAsStateS
 import com.rnk0085.android.jetpackcomposepractice.animateContentSize.AnimateContentSizeScreen
 import com.rnk0085.android.jetpackcomposepractice.animatedVisibility.AnimatedVisibilityScreen
 import com.rnk0085.android.jetpackcomposepractice.crossFade.CrossFadeScreen
+import com.rnk0085.android.jetpackcomposepractice.rememberInfiniteTransition.RememberInfiniteTransition
 import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePracticeTheme
 import com.rnk0085.android.jetpackcomposepractice.updateTransition.UpdateTransitionScreen
 
@@ -57,6 +58,9 @@ fun MainNavHost(
                 },
                 onClick5 = {
                     navController.navigate(Routes.CrossFade.route)
+                },
+                onClick6 = {
+                    navController.navigate(Routes.RememberInfiniteTransition.route)
                 }
             )
         }
@@ -79,6 +83,10 @@ fun MainNavHost(
         composable(Routes.CrossFade.route) {
             CrossFadeScreen()
         }
+
+        composable(Routes.RememberInfiniteTransition.route) {
+            RememberInfiniteTransition()
+        }
     }
 }
 
@@ -98,4 +106,5 @@ sealed class Routes(val route: String) {
     object AnimatedVisibility : Routes("animatedVisibility")
     object AnimateContentSize : Routes("animateConteSize")
     object CrossFade : Routes("crossFade")
+    object RememberInfiniteTransition : Routes("rememberInfiniteTransition")
 }

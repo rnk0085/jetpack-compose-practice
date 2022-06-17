@@ -16,6 +16,7 @@ fun HomeScreen(
     onClick3: () -> Unit = {},
     onClick4: () -> Unit = {},
     onClick5: () -> Unit = {},
+    onClick6: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -40,6 +41,10 @@ fun HomeScreen(
 
         Button(onClick = onClick5) {
             Text(text = "CrossFade")
+        }
+
+        Button(onClick = onClick6) {
+            Text(text = "RememberInfiniteTransition")
         }
     }
 }
