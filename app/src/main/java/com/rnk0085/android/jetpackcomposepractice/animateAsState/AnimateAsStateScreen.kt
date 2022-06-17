@@ -86,12 +86,12 @@ private fun AnimationAvailableWithFastOutSlowInEasing(isBlue: Boolean) {
     val backgroundColor by animateColorAsState(
         if (isBlue) Color.Blue else Color.Red,
         animationSpec = tween(
-            durationMillis = 1000,
+            durationMillis = 3000,
             easing = FastOutSlowInEasing
         )
     )
     Column {
-        Text(text = "tween(1000, FastOutSlowInEasing)")
+        Text(text = "FastOutSlowInEasing")
         MyBox(backgroundColor = backgroundColor)
     }
 }
@@ -101,12 +101,12 @@ private fun AnimationAvailableWithLinearOutSlowInEasing(isBlue: Boolean) {
     val backgroundColor by animateColorAsState(
         if (isBlue) Color.Blue else Color.Red,
         animationSpec = tween(
-            durationMillis = 1000,
+            durationMillis = 3000,
             easing = LinearOutSlowInEasing
         )
     )
     Column {
-        Text(text = "tween(1000, LinearOutSlowInEasing)")
+        Text(text = "LinearOutSlowInEasing")
         MyBox(backgroundColor = backgroundColor)
     }
 }
@@ -116,12 +116,12 @@ private fun AnimationAvailableWithFastOutLinearInEasing(isBlue: Boolean) {
     val backgroundColor by animateColorAsState(
         if (isBlue) Color.Blue else Color.Red,
         animationSpec = tween(
-            durationMillis = 1000,
+            durationMillis = 3000,
             easing = FastOutLinearInEasing
         )
     )
     Column {
-        Text(text = "tween(1000, FastOutLinearInEasing)")
+        Text(text = "FastOutLinearInEasing")
         MyBox(backgroundColor = backgroundColor)
     }
 }
@@ -131,12 +131,12 @@ private fun AnimationAvailableWithLinearEasing(isBlue: Boolean) {
     val backgroundColor by animateColorAsState(
         if (isBlue) Color.Blue else Color.Red,
         animationSpec = tween(
-            durationMillis = 1000,
+            durationMillis = 3000,
             easing = LinearEasing
         )
     )
     Column {
-        Text(text = "tween(1000, LinearEasing)")
+        Text(text = "LinearEasing")
         MyBox(backgroundColor = backgroundColor)
     }
 }
