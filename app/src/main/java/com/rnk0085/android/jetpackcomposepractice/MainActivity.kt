@@ -83,9 +83,7 @@ fun MainNavHost(
 }
 
 @Composable
-internal fun MyBox(
-    backgroundColor: Color
-) {
+internal fun MyBox(backgroundColor: Color = Color.Blue) {
     Box(
         modifier = Modifier
             .size(128.dp)
