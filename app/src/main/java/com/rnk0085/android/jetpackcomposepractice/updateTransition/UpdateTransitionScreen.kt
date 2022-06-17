@@ -93,6 +93,10 @@ private fun NoAnimation(currentState: BoxState) {
     MyBox(boxSize = boxSize, color = color)
 }
 
+/**
+ * Springを使用するバージョン
+ * 縮むときが遅い
+ */
 @Composable
 private fun AnimationAvailable1(currentState: BoxState) {
     val transition = updateTransition(currentState, label = "Transition")
@@ -137,6 +141,10 @@ private fun AnimationAvailable1(currentState: BoxState) {
     MyBox(boxSize = boxSize, color = color)
 }
 
+/**
+ * Springを自分で数字指定するバージョン
+ * 実際は上記①の反対にしてある
+ */
 @Composable
 private fun AnimationAvailable2(currentState: BoxState) {
     val transition = updateTransition(currentState, label = "Transition")
@@ -146,10 +154,10 @@ private fun AnimationAvailable2(currentState: BoxState) {
             when {
                 // 縮むとき
                 BoxState.Expanded isTransitioningTo BoxState.Collapsed ->
-                    spring(stiffness = Spring.StiffnessMedium)
+                    spring(stiffness = 1500f)
 
                 // 広がるとき
-                else -> spring(stiffness = Spring.StiffnessVeryLow)
+                else -> spring(stiffness = 50f)
             }
         },
         label = "Box Size"
@@ -164,10 +172,10 @@ private fun AnimationAvailable2(currentState: BoxState) {
         transitionSpec = {
             when {
                 // 縮むとき
-                BoxState.Expanded isTransitioningTo BoxState.Collapsed -> spring(stiffness = Spring.StiffnessMedium)
+                BoxState.Expanded isTransitioningTo BoxState.Collapsed -> spring(stiffness = 1500f)
 
                 // 広がるとき
-                else -> spring(stiffness = Spring.StiffnessVeryLow)
+                else -> spring(stiffness = 50f)
             }
         },
         label = "Background Color"
@@ -182,7 +190,7 @@ private fun AnimationAvailable2(currentState: BoxState) {
 }
 
 /**
- * 遷移するのにかかる時間を設定した
+ * 遷移するのにかかる時間(tween)を設定するバージョン
  * 縮むときは2s、広がるときは5s
  * （遷移途中でボタンを押すと素早く戻る）
  */
