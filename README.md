@@ -2,8 +2,6 @@
 
 - `animation`
   - 自分で試したAnimation集
-- `animation-codelab`
-  - アニメーションのコードラボを試した
 - `navigation-backstack`
   - ナビゲーションのバックスタックどうなってる？
 - `navigation-passing-values`
