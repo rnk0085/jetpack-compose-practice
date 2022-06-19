@@ -46,3 +46,7 @@ https://user-images.githubusercontent.com/83486701/174472440-80084569-3ca6-449a-
 - [Animation](https://developer.android.com/jetpack/compose/animation#animate-as-state)
 - [Animating elements in Jetpack Compose](https://developer.android.com/codelabs/jetpack-compose-animation?continue=https%3A%2F%2Fdeveloper.android.com%2Fcourses%2Fpathways%2Fcompose%3Fhl%3Dja%23codelab-https%3A%2F%2Fdeveloper.android.com%2Fcodelabs%2Fjetpack-compose-animation#0)
   - Codelab
+
+### 備考
+
+- ボタンの名前変更してなかった…
