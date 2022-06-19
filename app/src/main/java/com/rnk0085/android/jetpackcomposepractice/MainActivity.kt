@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.rnk0085.android.jetpackcomposepractice.animateAsState.AnimateAsStateScreen
 import com.rnk0085.android.jetpackcomposepractice.animateContentSize.AnimateContentSizeScreen
+import com.rnk0085.android.jetpackcomposepractice.animatedContent.AnimatedContentScreen
 import com.rnk0085.android.jetpackcomposepractice.animatedVisibility.AnimatedVisibilityScreen
 import com.rnk0085.android.jetpackcomposepractice.crossFade.CrossFadeScreen
 import com.rnk0085.android.jetpackcomposepractice.rememberInfiniteTransition.RememberInfiniteTransition
@@ -61,6 +62,9 @@ fun MainNavHost(
                 },
                 onClick6 = {
                     navController.navigate(Routes.RememberInfiniteTransition.route)
+                },
+                onClick7 = {
+                    navController.navigate(Routes.AnimatedContent.route)
                 }
             )
         }
@@ -87,6 +91,10 @@ fun MainNavHost(
         composable(Routes.RememberInfiniteTransition.route) {
             RememberInfiniteTransition()
         }
+
+        composable(Routes.AnimatedContent.route) {
+            AnimatedContentScreen()
+        }
     }
 }
 
@@ -107,4 +115,5 @@ sealed class Routes(val route: String) {
     object AnimateContentSize : Routes("animateConteSize")
     object CrossFade : Routes("crossFade")
     object RememberInfiniteTransition : Routes("rememberInfiniteTransition")
+    object AnimatedContent : Routes("animatedContent")
 }
