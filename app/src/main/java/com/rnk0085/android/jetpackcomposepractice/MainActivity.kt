@@ -80,10 +80,16 @@ fun MyBottomNavigation(
                 selected = currentDestination?.hierarchy?.any { it.route == uiState.screen.route } == true,
                 onClick = {
                     navController.navigate(uiState.screen.route) {
+                        // グラフのスタート地点にポップアップすることで、
+                        // ユーザーがアイテムを選択する際にバックスタックに大きな目的地が蓄積されるのを防げる
                         popUpTo(navController.graph.findStartDestination().id) {
                             saveState
                         }
+
+                        // 同じアイテムを再選択する際に、同じ目的地が複数コピーされるのを避けられる
                         launchSingleTop = true
+
+                        // 以前に選択したアイテムを再選択する際に、状態を復元することが可能
                         restoreState = true
                     }
                 }
