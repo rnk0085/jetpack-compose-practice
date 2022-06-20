@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">JetpackComposePractice</string>
+
+    <string name="home">home</string>
+    <string name="email">email</string>
+    <string name="stars">stars</string>
+    <string name="lists">lists</string>
 </resources>
