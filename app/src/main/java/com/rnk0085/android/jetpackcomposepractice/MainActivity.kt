@@ -18,16 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
-import com.rnk0085.android.jetpackcomposepractice.screen.FirstScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.FourthScreen
-import com.rnk0085.android.jetpackcomposepractice.screen.NextScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.SecondScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.ThirdScreen
 import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePracticeTheme
@@ -136,24 +132,6 @@ fun MyNavHost(navController: NavHostController) {
         composable(Screen.Second.route) { SecondScreen() }
         composable(Screen.Third.route) { ThirdScreen() }
         composable(Screen.Fourth.route) { FourthScreen() }
-    }
-}
-
-// Homeタブ内のナビゲーションに使う
-sealed class HomeRoutes(val route: String) {
-    object Home : HomeRoutes("home")
-    object Next : HomeRoutes("next")
-}
-
-fun NavGraphBuilder.homeGraph(navController: NavController) {
-    navigation(
-        startDestination = Screen.First.route,
-        route = HomeRoutes.Home.route
-    ) {
-        composable(Screen.First.route) {
-            FirstScreen(onClick = { navController.navigate(HomeRoutes.Next.route) })
-        }
-        composable(HomeRoutes.Next.route) { NextScreen() }
     }
 }
 
