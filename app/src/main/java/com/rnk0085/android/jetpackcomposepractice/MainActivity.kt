@@ -92,7 +92,12 @@ fun MyBottomNavigation(
                         // 以前に選択したアイテムを再選択する際に、状態を復元することが可能
                         restoreState = true
                     }
-                }
+                },
+                /**
+                 * alwaysShowLabelをfalseにすると
+                 * 選択した時だけラベルが表示されるようになる
+                 */
+                // alwaysShowLabel = false
             )
         }
     }
