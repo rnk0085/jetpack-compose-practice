@@ -8,3 +8,5 @@
   - 画面遷移で値を受け渡す
 - `viewmodel-flow`
   - ViewModelでStateFlowを使うにはどうするか？を確かめた
+- `bottom-navigation`
+  - BottomNavigationBarの動作確認
