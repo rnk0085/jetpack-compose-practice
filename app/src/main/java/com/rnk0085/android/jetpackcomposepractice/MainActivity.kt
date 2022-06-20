@@ -11,19 +11,23 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.rnk0085.android.jetpackcomposepractice.screen.FirstScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.FourthScreen
+import com.rnk0085.android.jetpackcomposepractice.screen.NextScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.SecondScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.ThirdScreen
 import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePracticeTheme
@@ -48,7 +52,8 @@ fun MyApp() {
             bottomBar = {
                 MyBottomNavigation(
                     navController = nabController,
-                    uiState = uiState
+                    uiState = uiState,
+                    changeSelectedTab = viewModel::changeSelectedTab
                 )
             }
         ) {
@@ -57,29 +62,42 @@ fun MyApp() {
     }
 }
 
-sealed class Screen(val route: String) {
-    object First : Screen("first")
-    object Second : Screen("second")
-    object Third : Screen("third")
-    object Fourth : Screen("fourth")
+//sealed class Screen(val route: String) {
+//    object First : Screen("first")
+//    object Second : Screen("second")
+//    object Third : Screen("third")
+//    object Fourth : Screen("fourth")
+//}
+
+// 「Screen.values().map { it.route }」を使うために変更
+enum class Screen(val route: String) {
+    First("first"),
+    Second("second"),
+    Third("third"),
+    Fourth("fourth")
 }
 
 @Composable
 fun MyBottomNavigation(
     navController: NavController,
-    uiState: MainUiState
+    uiState: MainUiState,
+    changeSelectedTab: (String) -> Unit
 ) {
     BottomNavigation {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
 
-        uiState.bottomNavigationItemUiState.forEach { uiState ->
+        val currentDestination = navBackStackEntry?.destination?.route ?: Screen.First.route
+        val routes = remember { Screen.values().map { it.route } }
+
+        if (currentDestination in routes) changeSelectedTab(currentDestination)
+
+        uiState.bottomNavigationItemUiState.forEach { navigationItemUiState ->
             BottomNavigationItem(
-                icon = { Icon(uiState.icon, contentDescription = null) },
-                label = { Text(stringResource(uiState.labelId)) },
-                selected = currentDestination?.hierarchy?.any { it.route == uiState.screen.route } == true,
+                icon = { Icon(navigationItemUiState.icon, contentDescription = null) },
+                label = { Text(stringResource(navigationItemUiState.labelId)) },
+                selected = navigationItemUiState.screen.route == uiState.selectedTab,
                 onClick = {
-                    navController.navigate(uiState.screen.route) {
+                    navController.navigate(navigationItemUiState.screen.route) {
                         // グラフのスタート地点にポップアップすることで、
                         // ユーザーがアイテムを選択する際にバックスタックに大きな目的地が蓄積されるのを防げる
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -98,6 +116,11 @@ fun MyBottomNavigation(
                  * 選択した時だけラベルが表示されるようになる
                  */
                 // alwaysShowLabel = false
+
+                // TODO: 以下を削除
+                // 以下は分かりやすいように色を付けているだけ
+                selectedContentColor = Color.Red,
+                unselectedContentColor = Color.White
             )
         }
     }
@@ -107,12 +130,30 @@ fun MyBottomNavigation(
 fun MyNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.First.route
+        startDestination = HomeRoutes.Home.route
     ) {
-        composable(Screen.First.route) { FirstScreen() }
+        homeGraph(navController)
         composable(Screen.Second.route) { SecondScreen() }
         composable(Screen.Third.route) { ThirdScreen() }
         composable(Screen.Fourth.route) { FourthScreen() }
+    }
+}
+
+// Homeタブ内のナビゲーションに使う
+sealed class HomeRoutes(val route: String) {
+    object Home : HomeRoutes("home")
+    object Next : HomeRoutes("next")
+}
+
+fun NavGraphBuilder.homeGraph(navController: NavController) {
+    navigation(
+        startDestination = Screen.First.route,
+        route = HomeRoutes.Home.route
+    ) {
+        composable(Screen.First.route) {
+            FirstScreen(onClick = { navController.navigate(HomeRoutes.Next.route) })
+        }
+        composable(HomeRoutes.Next.route) { NextScreen() }
     }
 }
 

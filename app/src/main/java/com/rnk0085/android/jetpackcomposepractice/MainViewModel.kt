@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class MainViewModel : ViewModel() {
     private val _uiState: MutableStateFlow<MainUiState>
@@ -43,10 +44,17 @@ class MainViewModel : ViewModel() {
     }
 
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+
+    fun changeSelectedTab(selectedTab: String) {
+        _uiState.update {
+            it.copy(selectedTab = selectedTab)
+        }
+    }
 }
 
 data class MainUiState(
     val bottomNavigationItemUiState: List<BottomNavigationItemUiState>,
+    val selectedTab: String = Screen.First.route
 )
 
 data class BottomNavigationItemUiState(
