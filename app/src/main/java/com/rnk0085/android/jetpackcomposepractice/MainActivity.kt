@@ -23,7 +23,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.rnk0085.android.jetpackcomposepractice.screen.FourthScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.SecondScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.ThirdScreen
 import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePracticeTheme
@@ -66,7 +65,7 @@ fun MyApp() {
 //}
 
 // 「Screen.values().map { it.route }」を使うために変更
-enum class Screen(val route: String) {
+enum class BottomTab(val route: String) {
     First("first"),
     Second("second"),
     Third("third"),
@@ -82,18 +81,18 @@ fun MyBottomNavigation(
     BottomNavigation {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-        val currentDestination = navBackStackEntry?.destination?.route ?: Screen.First.route
-        val routes = remember { Screen.values().map { it.route } }
+        val currentRoute = navBackStackEntry?.destination?.route ?: BottomTab.First.route
+        val routes = remember { BottomTab.values().map { it.route } }
 
-        if (currentDestination in routes) changeSelectedTab(currentDestination)
+        if (currentRoute in routes) changeSelectedTab(currentRoute)
 
         uiState.bottomNavigationItemUiState.forEach { navigationItemUiState ->
             BottomNavigationItem(
                 icon = { Icon(navigationItemUiState.icon, contentDescription = null) },
                 label = { Text(stringResource(navigationItemUiState.labelId)) },
-                selected = navigationItemUiState.screen.route == uiState.selectedTab,
+                selected = navigationItemUiState.bottomTab.route == uiState.selectedTab,
                 onClick = {
-                    navController.navigate(navigationItemUiState.screen.route) {
+                    navController.navigate(navigationItemUiState.bottomTab.route) {
                         // グラフのスタート地点にポップアップすることで、
                         // ユーザーがアイテムを選択する際にバックスタックに大きな目的地が蓄積されるのを防げる
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -129,8 +128,8 @@ fun MyNavHost(navController: NavHostController) {
         startDestination = HomeRoutes.Home.route
     ) {
         homeGraph(navController)
-        composable(Screen.Second.route) { SecondScreen() }
-        composable(Screen.Third.route) { ThirdScreen() }
+        composable(BottomTab.Second.route) { SecondScreen() }
+        composable(BottomTab.Third.route) { ThirdScreen() }
         listsGraph(navController)
     }
 }

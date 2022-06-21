@@ -21,10 +21,10 @@ sealed class HomeRoutes(val route: String) {
 
 fun NavGraphBuilder.homeGraph(navController: NavController) {
     navigation(
-        startDestination = Screen.First.route,
+        startDestination = BottomTab.First.route,
         route = HomeRoutes.Home.route
     ) {
-        composable(Screen.First.route) {
+        composable(BottomTab.First.route) {
             FirstScreen(onClick = { navController.navigate(HomeRoutes.Next.route) })
         }
         composable(HomeRoutes.Next.route) { NextScreen() }
@@ -38,10 +38,10 @@ sealed class ListRoutes(val route: String) {
 
 fun NavGraphBuilder.listsGraph(navController: NavHostController) {
     navigation(
-        startDestination = Screen.Fourth.route,
+        startDestination = BottomTab.Fourth.route,
         route = ListRoutes.Lists.route
     ) {
-        composable(Screen.Fourth.route) {
+        composable(BottomTab.Fourth.route) {
             FourthScreen(
                 onClick = { memoId ->
                     navigateToMemoDetail(navController, memoId)
