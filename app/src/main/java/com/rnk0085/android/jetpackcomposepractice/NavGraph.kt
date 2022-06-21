@@ -13,35 +13,24 @@ import com.rnk0085.android.jetpackcomposepractice.screen.FourthScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.MemoDetailScreen
 import com.rnk0085.android.jetpackcomposepractice.screen.NextScreen
 
-// Homeタブ内のナビゲーションに使う
-sealed class HomeRoutes(val route: String) {
-    object Home : HomeRoutes("home")
-    object Next : HomeRoutes("next")
-}
-
 fun NavGraphBuilder.homeGraph(navController: NavController) {
     navigation(
-        startDestination = BottomTab.First.route,
-        route = HomeRoutes.Home.route
+        route = "home",
+        startDestination = "home/top"
     ) {
-        composable(BottomTab.First.route) {
-            FirstScreen(onClick = { navController.navigate(HomeRoutes.Next.route) })
+        composable("home/top") {
+            FirstScreen(onClick = { navController.navigate("home/next") })
         }
-        composable(HomeRoutes.Next.route) { NextScreen() }
+        composable("home/next") { NextScreen() }
     }
-}
-
-sealed class ListRoutes(val route: String) {
-    object Lists : ListRoutes("lists")
-    object Detail : ListRoutes("detail")
 }
 
 fun NavGraphBuilder.listsGraph(navController: NavHostController) {
     navigation(
-        startDestination = BottomTab.Fourth.route,
-        route = ListRoutes.Lists.route
+        route = "lists",
+        startDestination = "lists/top"
     ) {
-        composable(BottomTab.Fourth.route) {
+        composable("lists/top") {
             FourthScreen(
                 onClick = { memoId ->
                     navigateToMemoDetail(navController, memoId)
@@ -49,7 +38,7 @@ fun NavGraphBuilder.listsGraph(navController: NavHostController) {
             )
         }
         composable(
-            "${ListRoutes.Detail.route}/{memoId}",
+            "lists/detail/{memoId}",
             arguments = listOf(
                 navArgument("memoId") {
                     type = NavType.IntType
@@ -68,5 +57,5 @@ private fun navigateToMemoDetail(
     navController: NavHostController,
     memoId: Int
 ) {
-    navController.navigate("${ListRoutes.Detail.route}/${memoId}")
+    navController.navigate("lists/detail/${memoId}")
 }

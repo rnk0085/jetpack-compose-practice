@@ -57,21 +57,6 @@ fun MyApp() {
     }
 }
 
-//sealed class Screen(val route: String) {
-//    object First : Screen("first")
-//    object Second : Screen("second")
-//    object Third : Screen("third")
-//    object Fourth : Screen("fourth")
-//}
-
-// 「Screen.values().map { it.route }」を使うために変更
-enum class BottomTab(val route: String) {
-    First("first"),
-    Second("second"),
-    Third("third"),
-    Fourth("fourth")
-}
-
 @Composable
 fun MyBottomNavigation(
     navController: NavController,
@@ -81,7 +66,10 @@ fun MyBottomNavigation(
     BottomNavigation {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-        val currentRoute = navBackStackEntry?.destination?.route ?: BottomTab.First.route
+        // BottomTabのroute名を合わせたいので、「xx/top」の場合に「xx」を取得する
+        val currentRoute =
+            navBackStackEntry?.destination?.route?.substringBefore("/")
+                ?: BottomTab.Home.route
         val routes = remember { BottomTab.values().map { it.route } }
 
         if (currentRoute in routes) changeSelectedTab(currentRoute)
@@ -125,11 +113,11 @@ fun MyBottomNavigation(
 fun MyNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = HomeRoutes.Home.route
+        startDestination = "home"
     ) {
         homeGraph(navController)
-        composable(BottomTab.Second.route) { SecondScreen() }
-        composable(BottomTab.Third.route) { ThirdScreen() }
+        composable(BottomTab.Email.route) { SecondScreen() }
+        composable(BottomTab.Star.route) { ThirdScreen() }
         listsGraph(navController)
     }
 }

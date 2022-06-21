@@ -19,22 +19,22 @@ class MainViewModel : ViewModel() {
     init {
         val bottomBarUiState = listOf(
             BottomNavigationItemUiState(
-                bottomTab = BottomTab.First,
+                bottomTab = BottomTab.Home,
                 icon = Icons.Filled.Home,
                 labelId = R.string.home
             ),
             BottomNavigationItemUiState(
-                bottomTab = BottomTab.Second,
+                bottomTab = BottomTab.Email,
                 icon = Icons.Filled.Email,
                 labelId = R.string.email
             ),
             BottomNavigationItemUiState(
-                bottomTab = BottomTab.Third,
+                bottomTab = BottomTab.Star,
                 icon = Icons.Filled.Star,
                 labelId = R.string.stars
             ),
             BottomNavigationItemUiState(
-                bottomTab = BottomTab.Fourth,
+                bottomTab = BottomTab.Lists,
                 icon = Icons.Filled.List,
                 labelId = R.string.lists
             ),
@@ -54,7 +54,7 @@ class MainViewModel : ViewModel() {
 
 data class MainUiState(
     val bottomNavigationItemUiState: List<BottomNavigationItemUiState>,
-    val selectedTab: String = BottomTab.First.route
+    val selectedTab: String = BottomTab.Home.route
 )
 
 data class BottomNavigationItemUiState(
