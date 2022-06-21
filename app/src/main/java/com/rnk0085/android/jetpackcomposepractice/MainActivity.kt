@@ -131,7 +131,7 @@ fun MyNavHost(navController: NavHostController) {
         homeGraph(navController)
         composable(Screen.Second.route) { SecondScreen() }
         composable(Screen.Third.route) { ThirdScreen() }
-        composable(Screen.Fourth.route) { FourthScreen() }
+        listsGraph(navController)
     }
 }
 
