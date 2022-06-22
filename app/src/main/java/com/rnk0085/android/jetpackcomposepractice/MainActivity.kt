@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,15 +35,15 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    SideEffect {
-        println("test: MyApp")
-    }
-
     val viewModel: MainViewModel = viewModel()
 
-    // TODO: ViewModelを使用
-    var openDialog by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
+
+    val errorState by viewModel.errorState.collectAsState()
+
+    SideEffect {
+        println("test: MyApp, $errorState")
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -56,18 +57,16 @@ fun MyApp() {
             onValueChange = { text = it }
         )
 
-        Button(onClick = {
-            if (!viewModel.isValidNumber(text)) openDialog = true
-        }) {
+        Button(onClick = { viewModel.isValidNumber(text) }) {
             Text(text = "決定")
         }
     }
 
-    if (openDialog) {
+    // Errorであり、かつまだ表示していない場合のみ
+    if (errorState.isError && !errorState.isShown) {
         MyDialog(
-            errorMessage = viewModel.errorMessage,
-            openDialog = openDialog,
-            onDismissRequest = { openDialog = false }
+            errorMessage = errorState.errorMessage,
+            onDismissRequest = { viewModel.onDismissRequest() }
         )
     }
 }

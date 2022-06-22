@@ -27,7 +27,6 @@ import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePractic
 @Composable
 fun MyDialog(
     errorMessage: String,
-    openDialog: Boolean,
     onDismissRequest: () -> Unit
 ) {
     SideEffect {
@@ -38,20 +37,18 @@ fun MyDialog(
 
     Log.d("test", "errorMessage: $errorMessage")
 
-    if (openDialog) {
-        Dialog(onDismissRequest = onDismissRequest) {
-            Column(
-                modifier = Modifier
-                    .size(width = dialogWidth, height = dialogHeight)
-                    .background(Color.White),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = "Error", style = MaterialTheme.typography.subtitle1)
-                Text(text = errorMessage, style = MaterialTheme.typography.caption)
-                Button(onClick = onDismissRequest) {
-                    Text(text = "閉じる")
-                }
+    Dialog(onDismissRequest = onDismissRequest) {
+        Column(
+            modifier = Modifier
+                .size(width = dialogWidth, height = dialogHeight)
+                .background(Color.White),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "Error", style = MaterialTheme.typography.subtitle1)
+            Text(text = errorMessage, style = MaterialTheme.typography.caption)
+            Button(onClick = onDismissRequest) {
+                Text(text = "閉じる")
             }
         }
     }
@@ -63,7 +60,6 @@ private fun MyDialogPreview() {
     JetpackComposePracticeTheme {
         MyDialog(
             errorMessage = "errorMessage",
-            openDialog = true,
             onDismissRequest = {}
         )
     }
