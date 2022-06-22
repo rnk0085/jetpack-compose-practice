@@ -1,7 +1,6 @@
 package com.rnk0085.android.jetpackcomposepractice
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.rnk0085.android.jetpackcomposepractice.ui.theme.JetpackComposePracticeTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,11 +38,11 @@ fun MyApp() {
         println("test: MyApp")
     }
 
+    val viewModel: MainViewModel = viewModel()
+
     // TODO: ViewModelを使用
     var openDialog by remember { mutableStateOf(false) }
     var text by remember { mutableStateOf("") }
-
-    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -56,35 +56,8 @@ fun MyApp() {
             onValueChange = { text = it }
         )
 
-        fun checkText(inputText: String) {
-            Log.d("test", "checkText")
-            inputText.toIntOrNull()?.let { number ->
-                if (number < 0) throw NegativeNumberException()
-                if (number > 9) throw OverNumberException()
-            } ?: throw NotNumberException()
-        }
-
-
-        fun isValidNumber(inputText: String) : Boolean {
-            Log.d("test", "isValidNumber")
-            return try {
-                checkText(inputText)
-                Log.d("test", "isValidNumber: checkTextDone")
-                true
-            } catch (e: MyException) {
-                Log.d("test", "isValidNumber: catch Exception")
-                errorMessage = when (e) {
-                    is NotNumberException -> "数字を入力してください"
-                    is NegativeNumberException -> "正の数を入力してください"
-                    is OverNumberException -> "9までの数字を入力してください"
-                }
-                Log.d("test", "errorMessage: $errorMessage")
-                false
-            }
-        }
-
         Button(onClick = {
-            if (!isValidNumber(text)) openDialog = true
+            if (!viewModel.isValidNumber(text)) openDialog = true
         }) {
             Text(text = "決定")
         }
@@ -92,7 +65,7 @@ fun MyApp() {
 
     if (openDialog) {
         MyDialog(
-            errorMessage = errorMessage,
+            errorMessage = viewModel.errorMessage,
             openDialog = openDialog,
             onDismissRequest = { openDialog = false }
         )
