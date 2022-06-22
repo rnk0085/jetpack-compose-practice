@@ -4,14 +4,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
+    // 本当はDIすべき
+    val checkTextUseCase = CheckTextUseCase()
+
     var errorMessage = ""
 
     private fun checkText(inputText: String) {
-        Log.d("test", "checkText")
-        inputText.toIntOrNull()?.let { number ->
-            if (number < 0) throw NegativeNumberException()
-            if (number > 9) throw OverNumberException()
-        } ?: throw NotNumberException()
+        checkTextUseCase(inputText)
     }
 
     fun isValidNumber(inputText: String): Boolean {
