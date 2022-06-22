@@ -10,3 +10,5 @@
   - ViewModelでStateFlowを使うにはどうするか？を確かめた
 - `bottom-navigation`
   - BottomNavigationBarの動作確認
+- `exception-dialog`
+  - Exceptionを定義したり、Dialog表示したり…など
