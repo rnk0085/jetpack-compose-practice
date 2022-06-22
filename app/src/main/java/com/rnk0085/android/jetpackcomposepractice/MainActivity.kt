@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -100,10 +101,9 @@ fun MyBottomNavigation(
                  */
                 // alwaysShowLabel = false
 
-                // TODO: 以下を削除
                 // 以下は分かりやすいように色を付けているだけ
-                selectedContentColor = Color.Red,
-                unselectedContentColor = Color.White
+                selectedContentColor = Color.Yellow,
+                unselectedContentColor = Color.White.copy(alpha = ContentAlpha.medium)
             )
         }
     }
