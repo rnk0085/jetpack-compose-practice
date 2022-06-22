@@ -15,39 +15,41 @@ import com.rnk0085.android.jetpackcomposepractice.screen.NextScreen
 
 fun NavGraphBuilder.homeGraph(navController: NavController) {
     navigation(
-        route = "home",
-        startDestination = "home/top"
+        route = Home.tab.route,
+        startDestination = Home.Top.route
     ) {
-        composable("home/top") {
-            FirstScreen(onClick = { navController.navigate("home/next") })
+        composable(Home.Top.route) {
+            FirstScreen(onClick = { navController.navigate(Home.Next.route) })
         }
-        composable("home/next") { NextScreen() }
+        composable(Home.Next.route) { NextScreen() }
     }
 }
 
 fun NavGraphBuilder.listsGraph(navController: NavHostController) {
     navigation(
-        route = "lists",
-        startDestination = "lists/top"
+        route = Lists.tab.route,
+        startDestination = Lists.Top.route
     ) {
-        composable("lists/top") {
+        composable(Lists.Top.route) {
             FourthScreen(
                 onClick = { memoId ->
                     navigateToMemoDetail(navController, memoId)
                 }
             )
         }
+
+        // "xx/{oo}"の{}を忘れずに！
         composable(
-            "lists/detail/{memoId}",
+            "${Lists.Detail.route}/{${Lists.MEMO_ID_KEY}}",
             arguments = listOf(
-                navArgument("memoId") {
+                navArgument(Lists.MEMO_ID_KEY) {
                     type = NavType.IntType
                 }
             )
         ) { backStackEntry: NavBackStackEntry ->
             // 参考：https://github.com/android/compose-samples/blob/main/Owl/app/src/main/java/com/example/owl/ui/NavGraph.kt
             val arguments = requireNotNull(backStackEntry.arguments)
-            val memoId = arguments.getInt("memoId")
+            val memoId = arguments.getInt(Lists.MEMO_ID_KEY)
             MemoDetailScreen(memoId = memoId)
         }
     }
@@ -57,5 +59,5 @@ private fun navigateToMemoDetail(
     navController: NavHostController,
     memoId: Int
 ) {
-    navController.navigate("lists/detail/${memoId}")
+    navController.navigate("${Lists.Detail.route}/${memoId}")
 }
