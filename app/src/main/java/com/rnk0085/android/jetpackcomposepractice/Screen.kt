@@ -1,13 +1,5 @@
 package com.rnk0085.android.jetpackcomposepractice
 
-import com.rnk0085.android.jetpackcomposepractice.Home.Companion.tab
-
-/**
- * Home: top, next
- * Email: top
- * Star: top
- * Lists: top, detail
- */
 // 「Screen.values().map { it.route }」を使うために必要
 enum class BottomTab(val route: String) {
     Home("home"),
@@ -51,9 +43,4 @@ sealed interface Lists : Screen {
         override val tab: BottomTab = BottomTab.Lists
         const val MEMO_ID_KEY = "memoId"
     }
-}
-
-sealed class ListRoutes(val route: String) {
-    object Lists : ListRoutes("${BottomTab.Lists.route}/top")
-    object Detail : ListRoutes("detail")
 }
