@@ -12,3 +12,5 @@
   - BottomNavigationBarの動作確認
 - `exception-dialog`
   - Exceptionを定義したり、Dialog表示したり…など
+- `mock-spy-test`
+  - Mock と Spy の挙動の違いを確認
