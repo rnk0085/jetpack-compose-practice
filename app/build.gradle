@@ -46,6 +46,9 @@ android {
 }
 
 dependencies {
+    // mockk
+    testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "io.mockk:mockk-agent-jvm:$mockk_version"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation "androidx.compose.ui:ui:$compose_version"
